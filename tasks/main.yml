@@ -1,0 +1,26 @@
+---
+- name: Download IntelliJ package
+  command: /usr/bin/wget https://download.jetbrains.com/idea/ideaIC-{{ hrc_intellij_version }}.tar.gz
+  args:
+    chdir: /root
+    creates: /root/ideaIC-{{ hrc_intellij_version }}.tar.gz
+    warn: no # get_url's cert validation fails on Ubuntu 14.04 with SNI sites
+
+- name: Download IntelliJ package checksum file
+  command: /usr/bin/wget https://download.jetbrains.com/idea/ideaIC-{{ hrc_intellij_version }}.tar.gz.sha256
+  args:
+    chdir: /root
+    creates: /root/ideaIC-{{ hrc_intellij_version }}.tar.gz.sha256
+    warn: no # get_url's cert validation fails on Ubuntu 14.04 with SNI sites
+
+# The rest of this play is gated on the checksum file validating
+- name: Validate IntelliJ package checksum
+  shell: /usr/bin/sha256sum -c /root/ideaIC-{{ hrc_intellij_version }}.tar.gz.sha256 | /bin/grep OK
+  args:
+    chdir: /root
+
+- name: Extract IntelliJ into /opt
+  unarchive:
+    creates: /opt/idea-IC-{{ hrc_intellij_build }}
+    dest: /opt
+    src: /root/ideaIC-{{ hrc_intellij_version }}.tar.gz
