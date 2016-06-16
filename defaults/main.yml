@@ -1,4 +1,5 @@
 ---
 hrc_intellij_build: 145.1617.8
+hrc_intellij_symlink_dest: /opt/idea
 hrc_intellij_version: 2016.1.3
 
