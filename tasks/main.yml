@@ -24,6 +24,7 @@
     creates: /opt/idea-IC-{{ hrc_intellij_build }}
     dest: /opt
     src: /root/ideaIC-{{ hrc_intellij_version }}.tar.gz
+    copy: no
 
 - name: Create symlink to IntelliJ install directory
   file:
